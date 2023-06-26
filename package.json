@@ -15,7 +15,9 @@
     "md-editor-v3": "^4.2.0",
     "ts-md5": "^1.3.1",
     "vue": "^3.2.47",
-    "vue-router": "^4.2.2"
+    "vue-drag-resize": "^1.5.4",
+    "vue-router": "^4.2.2",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.47.1",

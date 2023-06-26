@@ -1,30 +1,39 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+<script lang='ts' setup>
+import Theme from '@/components/Theme.vue'
+import { onMounted } from 'vue'
+import { appContext } from './models/app.context';
+
+onMounted(() => {
+  appContext.system.init();
+})
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <router-view></router-view>
+  <Theme />
 </template>
+<style lang="scss">
+// 占位行
+.root {
+  // background: #f3f3f3;
+  align-content: flex-start;
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  .main {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    // @media screen and (max-width: 1200px) {
+    //   width: 100%;
+    // }
+    // @media screen and (min-width: 1200px) {
+    //   min-width: 1200px;
+    //   width: 1400px;
+    // }
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.not-scene {
+  justify-content: center;
+  font-size: 20px;
 }
 </style>
