@@ -12,7 +12,9 @@ const size = ref(0.5)
   <div class="index flex-c">
     <Header />
     <main class="main">
-      <a-split class="split" v-model:size="size" min="80px">
+      <Lore />
+
+      <!-- <a-split class="split" v-model:size="size" min="80px">
         <template #first>
           <a-typography-paragraph class="left">
             <Lore />
@@ -21,7 +23,7 @@ const size = ref(0.5)
         <template #second>
           <a-typography-paragraph class="right">Right</a-typography-paragraph>
         </template>
-      </a-split>
+      </a-split> -->
     </main>
     <Welcome />
   </div>

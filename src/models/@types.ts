@@ -29,3 +29,8 @@ export type LocalStorageInfo<T> = {
   data?: T;
   list?: T[];
 };
+
+export interface ChatMessage {
+  role: "user" | "assistant" | "system";
+  content: string;
+}
