@@ -4,7 +4,8 @@ import { appRef } from '@/models/app.ref';
 import { ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import VueDragResize from 'vue-drag-resize/src';
+import VueDragResizeRotate from "@gausszhou/vue3-drag-resize-rotate";
+import "@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css";
 
 const source = ref('')
 const previewTheme: 'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis' = 'default'
@@ -16,13 +17,13 @@ function resize(newRect) {
 
 </script>
 <template>
-  <VueDragResize :w="1000" :h="600" :parentLimitation="true" dragHandle=".take-note">
+  <VueDragResizeRotate style="border: none" drag-handle=".drag-handle" :parent="true">
     <div class="take-note flex-c">
-      <div class="title">好记性不如烂笔头</div>
+      <div class="title drag-handle">好记性不如烂笔头</div>
       <MdEditor style="flex: 1;" v-model:model-value="source"
         :theme="appRef.theme === ThemeEnum.Dark ? ThemeEnum.Dark : ThemeEnum.Light" />
     </div>
-  </VueDragResize>
+  </VueDragResizeRotate>
 </template>
 <style lang='scss' scoped>
 .take-note {
@@ -36,6 +37,9 @@ function resize(newRect) {
 
   .title {
     margin-bottom: 10px;
+    cursor: move;
+    width: 100%;
+    text-align: center;
   }
 }
 
