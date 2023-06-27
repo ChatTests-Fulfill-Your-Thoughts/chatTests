@@ -10,7 +10,7 @@ const size = ref(0.5)
 </script>
 <template>
   <div class="index flex-c">
-    <Header />
+    <!-- <Header /> -->
     <main class="main">
       <Lore />
 
@@ -24,6 +24,7 @@ const size = ref(0.5)
           <a-typography-paragraph class="right">Right</a-typography-paragraph>
         </template>
       </a-split> -->
+      <TakeNote />
     </main>
     <Welcome />
   </div>

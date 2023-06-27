@@ -5,7 +5,6 @@ import { ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import VueDragResizeRotate from "@gausszhou/vue3-drag-resize-rotate";
-import "@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css";
 
 const source = ref('')
 const previewTheme: 'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis' = 'default'
@@ -17,7 +16,7 @@ function resize(newRect) {
 
 </script>
 <template>
-  <VueDragResizeRotate style="border: none" drag-handle=".drag-handle" :parent="true">
+  <VueDragResizeRotate w="1000" h="700" style="border: none" drag-handle=".drag-handle" :parent="true">
     <div class="take-note flex-c">
       <div class="title drag-handle">好记性不如烂笔头</div>
       <MdEditor style="flex: 1;" v-model:model-value="source"
@@ -41,11 +40,5 @@ function resize(newRect) {
     width: 100%;
     text-align: center;
   }
-}
-
-.mark {
-  width: 100%;
-  height: 100%;
-  background-color: aqua;
 }
 </style>

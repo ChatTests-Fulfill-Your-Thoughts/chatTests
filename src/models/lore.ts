@@ -23,8 +23,8 @@ export class LoreModel {
   private LOCAL_STORAGE_KEY = "hope-lore";
   private _data = <LocalStorageInfo<LoreInfo>>{};
 
-  private _subject: string = '软件设计师';
-  private _range: string = '面向对象技术、软件工程、项目管理、数据结构和算法基础、计算机体系结构、信息安全&网络、程序设计语言&编译器、操作系统、数据库系统知识产权与标准化、相关领域英语材料完型填空'
+  private _subject: string = '学前教育' || ' 软件设计师';
+  private _range: string = '综合素质' || '面向对象技术、软件工程、项目管理、数据结构和算法基础、计算机体系结构、信息安全&网络、程序设计语言&编译器、操作系统、数据库系统知识产权与标准化、相关领域英语材料完型填空'
 
   constructor() { }
 
@@ -86,9 +86,9 @@ export class LoreModel {
         5. D选项；
         6. 正确选项的数字表示(1代表A，2代表B，3代表C，4代表D)；
         7. 解析，50字以上，不超过200个词；
-        以JSON字符串格式提供你的输出，包含以下键：topic(题干)，A(选项内容)，B(选项内容)，C(选项内容)，D(选项内容)correct(正确选项数字)，analyze(解析)
+        以JSON格式提供你的输出，包含以下键：topic(题干)，A(选项内容)，B(选项内容)，C(选项内容)，D(选项内容)correct(正确选项数字)，analyze(解析)
 
-        举例输出JSON字符串 如下：
+        举例输出JSON 如下：
         {
           "topic": "以下关于好的软件设计原则的叙述中，不正确的是（）。",
           "A": "模块化",
@@ -101,7 +101,7 @@ export class LoreModel {
       },
       {
         role: "user",
-        content: '请随机给出一个' + subject + '的题目，范围是' + range + '排除 ###' + exclude + '###',
+        content: '请随机给出一个' + subject + '的题目，范围是' + range + '; 排除已经出过的题目 ###' + exclude + '###',
       },
     ] as ChatMessage[]
   }

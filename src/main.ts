@@ -9,6 +9,7 @@ import router from "./router";
 import ArcoVueIcon from "@arco-design/web-vue/es/icon";
 import "@arco-design/web-vue/dist/arco.css";
 import "@arco-themes/vue-chatanywhere/theme.css";
+import "@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css";
 
 const app = createApp(App);
 app.use(ArcoVueIcon);
