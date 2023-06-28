@@ -1,5 +1,6 @@
 <script lang='ts' setup>
 import { Drag } from "@/models/@types";
+import { appContext } from "@/models/app.context";
 import VueDragResizeRotate from "@gausszhou/vue3-drag-resize-rotate";
 import { onMounted, reactive, ref } from 'vue';
 
@@ -39,10 +40,11 @@ const props = withDefaults(defineProps<{
 const emits = defineEmits(['minimize', 'maximize', 'close'])
 
 onMounted(() => {
-  const { x, y, w, h } = props;
-  position.value = { x, y, w, h }
+  const { x, y, w, h, appid } = props;
+  position.value = { x, y, w, h };
+  const app = { appid, x, y, w, h };
+  appContext.applicationSet.setApplication(app);
 })
-
 
 
 

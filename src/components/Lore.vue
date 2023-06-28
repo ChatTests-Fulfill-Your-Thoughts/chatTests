@@ -4,6 +4,7 @@ import { LoreQuestionInfo } from '@/models/lore'
 import { appRef } from '@/models/app.ref';
 import { chatService } from '@/services/chat.service';
 import Drag from './base/Drag.vue'
+import { Registry } from '@/config/base';
 
 
 const question = ref({} as LoreQuestionInfo)
@@ -40,7 +41,7 @@ function end(text: string): void {
 
 </script>
 <template>
-  <Drag title="AI备考助手">
+  <Drag :appid="Registry.lore" title="AI备考助手">
     <template #content>
       <div class="conter">
         <div class="topic">{{ question.topic }}</div>

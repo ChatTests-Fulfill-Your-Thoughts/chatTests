@@ -1,3 +1,4 @@
+import { ApplicationSetModel } from "./application";
 import { SystemModel } from "./system";
 
 export enum ThemeEnum {
@@ -19,6 +20,7 @@ class AppContext {
   private _global = <GlobalInfo>{};
   private _config = <ConfigInfo>{};
   private _system: SystemModel = new SystemModel();
+  private _applicationSet: ApplicationSetModel = new ApplicationSetModel();
 
   constructor() { }
 
@@ -54,6 +56,11 @@ class AppContext {
   /** system 设备基础信息 */
   public get system(): SystemModel {
     return this._system;
+  }
+
+  /** 应用集 */
+  public get applicationSet(): ApplicationSetModel {
+    return this._applicationSet;
   }
 }
 /** 全局 非响应式数据 管理 */

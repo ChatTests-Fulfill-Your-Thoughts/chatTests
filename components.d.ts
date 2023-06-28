@@ -13,8 +13,6 @@ declare module 'vue' {
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
-    ASplit: typeof import('@arco-design/web-vue')['Split']
-    ATypographyParagraph: typeof import('@arco-design/web-vue')['TypographyParagraph']
     Drag: typeof import('./src/components/base/Drag.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/base/Header.vue')['default']
