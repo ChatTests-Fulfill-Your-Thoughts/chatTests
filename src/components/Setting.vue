@@ -4,16 +4,24 @@ import { Message } from '@arco-design/web-vue';
 import { onMounted, ref } from 'vue';
 import Theme from './Theme.vue';
 import { Site } from '@/config/base';
+import { appNotify, NotifyOption, NotifyType } from '@/models/app.notify';
 
 const openai_key = ref('');
-
+const wallpaper = ref('');
 onMounted(() => {
-  openai_key.value = appRef.user.data.openai_key
+  openai_key.value = appRef.user.data.openai_key;
+  wallpaper.value = appRef.user.data.wallpaper;
 })
 
 function blurOpenai(): void {
   appRef.user.setOpenKey(openai_key.value);
   Message.success('Api_Key 全局设置成功')
+}
+
+function blurWallpaper(): void {
+  appRef.user.setWallpaper(wallpaper.value);
+  appNotify.send(NotifyType.Wallpaper, NotifyOption.Updated)
+  Message.success('背景图设置成功')
 }
 
 function onClear(): void {
@@ -28,10 +36,10 @@ function onClear(): void {
       <span>点击此处支持项目后续开发</span>
     </a>
     <div class="group">
-      <div class="cell  flex">
+      <!-- <div class="cell  flex">
         <Theme :show="true" class="icon"></Theme>
         系统主题
-      </div>
+      </div> -->
       <a :href="Site.oldwebsite" target="_black">
         <div class="cell flex"> <icon-schedule class="icon" /> 体验旧版 </div>
       </a>
@@ -41,6 +49,10 @@ function onClear(): void {
       <div class="cell  ">
         <p class="title flex" style="margin-bottom: 10px;"><icon-idcard class="icon" />Api_Key</p>
         <a-input placeholder="Please enter ..." allow-clear v-model="openai_key" @blur="blurOpenai" />
+      </div>
+      <div class="cell  ">
+        <p class="title flex" style="margin-bottom: 10px;"><icon-idcard class="icon" />壁纸</p>
+        <a-input placeholder="Please enter ..." allow-clear v-model="wallpaper" @blur="blurWallpaper" />
       </div>
     </div>
 

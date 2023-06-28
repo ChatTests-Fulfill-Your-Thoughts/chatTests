@@ -34,3 +34,17 @@ export interface ChatMessage {
   role: "user" | "assistant" | "system";
   content: string;
 }
+
+export namespace Drag {
+  export type PositionInfo = {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
+  export enum Specification {
+    Min,
+    Free,
+    Max,
+  }
+}

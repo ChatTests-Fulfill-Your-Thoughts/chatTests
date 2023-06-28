@@ -1,6 +1,6 @@
 <script lang='ts' setup>
 import { ref, onMounted } from "vue";
-import Setting from './Setting.vue'
+import Setting from '../Setting.vue'
 import { Site } from "@/config/base";
 
 const loading = ref(true);
@@ -69,6 +69,7 @@ const isSetting = ref(false);
   position: sticky;
   top: 0;
   z-index: 9;
+  opacity: .5;
 
 
   .top {
