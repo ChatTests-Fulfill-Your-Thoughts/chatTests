@@ -1,16 +1,22 @@
 export enum NotifyType {
   /** 用户 */
   UserInfo = "userInfo",
+  /** 应用 */
+  Application = "application",
+  /** 点击应用 */
+  ApplicationClick = "applicationClick",
   /** 壁纸 */
   Wallpaper = "wallpaper",
 }
 
 export enum NotifyOption {
   Empty = "empty",
+  Init = "init",
   Reply = "reply",
   Updated = "updated",
   Clear = "clear",
   Delete = "delete",
+  Click = "click",
 }
 
 export class Observer {

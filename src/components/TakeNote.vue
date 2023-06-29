@@ -5,14 +5,14 @@ import { ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import Drag from './base/Drag.vue'
+import { Registry } from '@/config/base';
 
 const source = ref('')
 const previewTheme: 'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis' = 'default'
 
 </script>
 <template>
-  <Drag class="take-note" title="好记性不如烂笔头">
-
+  <Drag :app="Registry.takeNote">
     <template #content>
       <MdEditor style="flex: 1;" v-model:model-value="source"
         :theme="appRef.theme === ThemeEnum.Dark ? ThemeEnum.Dark : ThemeEnum.Light" />

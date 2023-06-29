@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue';
 import Theme from './Theme.vue';
 import { Site } from '@/config/base';
 import { appNotify, NotifyOption, NotifyType } from '@/models/app.notify';
+import { regExpImage } from '@/utils/common.methods';
 
 const openai_key = ref('');
 const wallpaper = ref('');
@@ -19,9 +20,16 @@ function blurOpenai(): void {
 }
 
 function blurWallpaper(): void {
-  appRef.user.setWallpaper(wallpaper.value);
-  appNotify.send(NotifyType.Wallpaper, NotifyOption.Updated)
-  Message.success('背景图设置成功')
+  regExpImage(wallpaper.value).then((res) => {
+    if (res) {
+      appRef.user.setWallpaper(wallpaper.value);
+      appNotify.send(NotifyType.Wallpaper, NotifyOption.Updated)
+      Message.success('背景图设置成功')
+    } else {
+      wallpaper.value = '';
+      Message.error('图片链接不可访问')
+    }
+  })
 }
 
 function onClear(): void {

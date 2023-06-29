@@ -12,5 +12,14 @@ export const Site = {
  */
 export const Registry = {
   // 芝士答题
-  lore: 'xxxxxx-hope-lore-xxxxxx'
-}
+  lore: {
+    appid: "xxxxxx-hope-lore-xxxxxx",
+    name: "AI 备考助手",
+    icon: "src/assets/logo.png",
+  },
+  takeNote: {
+    appid: "xxxxxx-hope-take-note-xxxxxx",
+    name: "记笔记",
+    icon: "src/assets/logo.png",
+  },
+};

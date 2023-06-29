@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import Welcome from '@/components/Welcome.vue';
 import Lore from '@/components/Lore.vue';
+import TakeNote from '@/components/TakeNote.vue';
 import Loading from '@/components/Loading.vue';
 import { appRef } from '@/models/app.ref';
 import { onMounted, ref } from 'vue';
@@ -22,7 +23,7 @@ function updatedWallpaper(): void {
   <div class="index flex-c" :style="{
     backgroundImage: 'url(' + wallpaper + ')'
   }">
-    <Header />
+    <Taskbar />
     <main class="main">
       <Lore />
       <!-- <Loading /> -->
@@ -36,9 +37,9 @@ function updatedWallpaper(): void {
           <a-typography-paragraph class="right">Right</a-typography-paragraph>
         </template>
       </a-split> -->
-      <!-- <TakeNote /> -->
+      <TakeNote />
     </main>
-    <Welcome />
+    <!-- <Welcome /> -->
   </div>
 </template>
 <style lang='scss' scoped>

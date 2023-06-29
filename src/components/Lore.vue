@@ -41,7 +41,7 @@ function end(text: string): void {
 
 </script>
 <template>
-  <Drag :appid="Registry.lore" title="AI备考助手">
+  <Drag :app="Registry.lore">
     <template #content>
       <div class="conter">
         <div class="topic">{{ question.topic }}</div>

@@ -1,69 +1,77 @@
-import { Registry } from "@/config/base";
+import { LocalStorageInfo } from "./@types";
+import { NotifyOption, NotifyType, appNotify } from "./app.notify";
 
 export type ApplicationInfo = {
   appid: string;
+  name: string;
+  icon: string;
   x: number;
   y: number;
   w: number;
   h: number;
   zIndex?: number;
-}
+};
 
 export class ApplicationSetModel {
   private LOCAL_STORAGE_KEY = "hope-application";
-  private _list: ApplicationInfo[] = [];
+  private _data = <LocalStorageInfo<ApplicationInfo>>{};
 
   public init(): void {
-    const dataArr = localStorage.getItem(this.LOCAL_STORAGE_KEY);
-    if (dataArr?.length) {
-      JSON.parse(dataArr)?.map((val: ApplicationInfo) => {
-        this._list = (this._list || []).concat(val);
-      })
-    }
+    const dataStr = localStorage.getItem(this.LOCAL_STORAGE_KEY);
+    this._data = dataStr ? JSON.parse(dataStr) : {};
   }
 
   public get num(): number {
-    return this._list?.length + 1 || 1;
+    return this._data.list?.length + 1 || 1;
   }
 
   public getApplication(appid: string): ApplicationInfo {
-    if (!this._list?.length) this.init();
-    return this._list.find(val => val.appid === appid)
+    if (!this._data.list?.length) this.init();
+    return this._data.list.find((val) => val.appid === appid);
+  }
+
+  public get applications(): ApplicationInfo[] {
+    if (!this._data.list?.length) this.init();
+    return this._data.list;
   }
 
   public setApplication(data: ApplicationInfo): void {
+    data = JSON.parse(JSON.stringify(data));
     data.zIndex = this.num;
-    if (this._list?.length) {
-      this._list = this._list?.map(val => {
-        if (val.appid === data.appid) { val = data } else { val.zIndex-- }
+    if (this._data.list?.some((val) => val.appid === data.appid)) {
+      this._data.list = this._data.list?.map((val) => {
+        if (val.appid === data.appid) {
+          val = data;
+        } else {
+          val.zIndex--;
+        }
         return val;
-      })
+      });
     } else {
-      this._list = [data];
+      this._data.list = (this._data.list || []).concat(data);
     }
-    this.setlocalStorage('setApplication')
+    this._data.current = data.appid;
+    this.setlocalStorage("setApplication");
   }
 
   private setlocalStorage(soure: string): void {
-    console.log("setlocalStoragesetloca >>> soure :", soure, this._list);
-    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(this._list));
+    console.log("setlocalStoragesetloca >>> soure :", soure, this._data);
+    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(this._data));
+    appNotify.send(NotifyType.Application, NotifyOption.Init);
   }
 }
 
+// export class ApplicationModel {
+//   private _data = <ApplicationInfo>{};
 
-export class ApplicationModel {
-  private _data = <ApplicationInfo>{};
+//   constructor(data?: ApplicationInfo) {
+//     this.setData(data);
+//   }
 
-  constructor(data?: ApplicationInfo) {
-    this.setData(data);
-  }
-
-  public get data(): ApplicationInfo {
-    return this._data;
-  }
-  public setData(data: ApplicationInfo): void {
-    this._data = data;
-  }
-
-
-}
+//   public get data(): ApplicationInfo {
+//     return this._data;
+//   }
+//   public setData(data: ApplicationInfo): void {
+//     this._data = data;
+//   }
+// }
