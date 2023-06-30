@@ -12,6 +12,11 @@ export type ApplicationInfo = {
   zIndex?: number;
 };
 
+
+/**
+ * 设计思想
+ * 
+ */
 export class ApplicationSetModel {
   private LOCAL_STORAGE_KEY = "hope-application";
   private _data = <LocalStorageInfo<ApplicationInfo>>{};
@@ -19,6 +24,15 @@ export class ApplicationSetModel {
   public init(): void {
     const dataStr = localStorage.getItem(this.LOCAL_STORAGE_KEY);
     this._data = dataStr ? JSON.parse(dataStr) : {};
+  }
+
+  public get current(): string {
+    return this._data.current;
+  }
+
+  public setCurrent(appid: string): void {
+    this._data.current = appid;
+    this.setlocalStorage("setCurrent");
   }
 
   public get num(): number {
@@ -36,6 +50,7 @@ export class ApplicationSetModel {
   }
 
   public setApplication(data: ApplicationInfo): void {
+    console.log(data);
     data = JSON.parse(JSON.stringify(data));
     data.zIndex = this.num;
     if (this._data.list?.some((val) => val.appid === data.appid)) {
@@ -52,6 +67,7 @@ export class ApplicationSetModel {
     }
     this._data.current = data.appid;
     this.setlocalStorage("setApplication");
+    appNotify.send(NotifyType.ApplicationRenew, NotifyOption.Empty);
   }
 
   private setlocalStorage(soure: string): void {
