@@ -41,9 +41,10 @@ export namespace Drag {
     y: number;
     w: number;
     h: number;
+    zIndex?: number;
   };
   export enum Specification {
-    Min,
+    Default,
     Free,
     Max,
   }

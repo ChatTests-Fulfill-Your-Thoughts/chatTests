@@ -5,6 +5,8 @@ export enum NotifyType {
   Application = "application",
   /** 点击应用 */
   ApplicationClick = "applicationClick",
+  /** 应用列表更新 */
+  ApplicationRenew = "ApplicationRenew",
   /** 壁纸 */
   Wallpaper = "wallpaper",
 }

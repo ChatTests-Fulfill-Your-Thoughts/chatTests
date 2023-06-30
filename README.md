@@ -1,4 +1,4 @@
- # chattests
+# chattests
 
 ## 让知识无界,智能触手可及
 
@@ -18,6 +18,8 @@
 - [axios](https://axios-http.com)
 
 - [md-editor-v3](https://imzbf.github.io/md-editor-v3/)
+
+- [@gausszhou/vue3-drag-resize-rotate](https://github.com/gausszhou/vue3-drag-resize-rotate#readme)
 
 ### [项目文档](https://zaiwen-chattests.feishu.cn/wiki/YKHGwqbgditgO7kmUgJcqXS3nps)
 

@@ -7,6 +7,7 @@ import Setting from '../Setting.vue'
 
 
 const isSetting = ref(false);
+const current = ref('');
 const applications = ref([] as ApplicationInfo[])
 
 onMounted(() => {
@@ -16,13 +17,17 @@ onMounted(() => {
 
 function setApplications(): void {
   applications.value = appContext.applicationSet.applications;
+  current.value = appContext.applicationSet.current;
   console.log(applications.value);
 }
 
 /** 点击了某个应用 */
 function onItem(appid: string): void {
   console.log('点击了某个应用', appid);
-  appNotify.send(NotifyType.ApplicationClick, NotifyOption.Empty, appid)
+  // appContext.applicationSet.current
+  appNotify.send(NotifyType.ApplicationClick, NotifyOption.Empty, appid);
+  appContext.applicationSet.setCurrent(appid);
+  setApplications();
 }
 
 </script>
@@ -32,7 +37,8 @@ function onItem(appid: string): void {
       <icon-apps class="icon" />
     </div>
     <div class="group flex">
-      <div class="item" v-for="item in applications" :key="item.appid" @click="onItem(item.appid)">
+      <div class="item" :class="{ activity: current === item.appid }" v-for="item in applications" :key="item.appid"
+        @click="onItem(item.appid)">
         <img class="icon" :src="item.icon" alt="">
       </div>
     </div>

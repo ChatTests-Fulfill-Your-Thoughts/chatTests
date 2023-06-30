@@ -49,32 +49,35 @@ const props = withDefaults(defineProps<{
 const emits = defineEmits(['minimize', 'maximize', 'close'])
 
 onMounted(() => {
-  appNotify.addListener(NotifyType.ApplicationClick, taskClick, 'hope-drag' + props.app);
+  appNotify.addListener(NotifyType.ApplicationRenew, renew, 'hope-drag' + props.app.appid);
+  appNotify.addListener(NotifyType.ApplicationClick, taskClick, 'hope-drag' + props.app.appid);
+
   toFree(true);
-  onWindowSpecification(props.specification);
+  changeSpecification();
 })
 
+/** 应用有更新，同步更新 */
+function renew(): void {
+  position.value = appContext.applicationSet.getApplication(props.app.appid);
+  console.log(props.app.name, position.value.zIndex);
+}
+
 function taskClick(opt: NotifyOption, msg?: string) {
-  console.log(opt, msg, props.app.appid);
+  console.log(opt, msg, props.app);
   if (props.app.appid === msg) {
-    if (windowSpecification.value === Drag.Specification.Min) {
-      onWindowSpecification(Drag.Specification.Free);
-    } else {
-      onWindowSpecification(Drag.Specification.Min);
-    }
+    isminimize.value = !isminimize.value
   }
 }
 
-const windowSpecification = ref(Drag.Specification.Free);
-function onWindowSpecification(type: Drag.Specification): void {
-  if (type === Drag.Specification.Min) {
-    console.log('min');
-  } else if (type === Drag.Specification.Max) {
-    toMax();
-  } else {
+const isminimize = ref(false);
+const windowSpecification = ref(Drag.Specification.Default);
+function changeSpecification(): void {
+  windowSpecification.value = windowSpecification.value === Drag.Specification.Free ? Drag.Specification.Max : Drag.Specification.Free;
+  if (windowSpecification.value === Drag.Specification.Free) {
     toFree();
+  } else {
+    toMax();
   }
-  windowSpecification.value = type;
 }
 
 function toFree(isInit: boolean = false): void {
@@ -100,40 +103,52 @@ function toFree(isInit: boolean = false): void {
 }
 
 function toMax(): void {
-  // const { app } = props;
   const { viewWidth, viewHeight } = appContext.system.data;
-  position.value = { x: 10, y: 0, w: viewWidth, h: viewHeight };
-  // appContext.applicationSet.setApplication({ ...app, ...position.value });
+  position.value = { x: 0, y: 0, w: viewWidth, h: viewHeight };
+  handles.value = [];
 }
 
 const handles = ref(['tl', 'tr', 'br', 'bl']);
 
 const position = ref({} as Drag.PositionInfo)
 function resizestop(x: number, y: number, w: number, h: number) {
+  console.log('resizestop');
   position.value = { x, y, w, h };
-  console.log(position.value);
+  appContext.applicationSet.setApplication({ ...props.app, ...position.value });
 }
 function dragstop(x: number, y: number) {
+  console.log('dragstop');
   position.value.x = x;
   position.value.y = y;
-  console.log(position.value, props.app);
+  appContext.applicationSet.setApplication({ ...props.app, ...position.value });
+}
+
+
+// 元素对齐辅助线
+const vLine = ref([]);
+const hLine = ref([]);
+function getRefLineParams(params) {
+  // console.log('getRefLineParams', params);
+  const { vLine, hLine } = params;
+  vLine.value = vLine;
+  hLine.value = hLine;
 }
 
 </script>
 <template>
   <VueDragResizeRotate :minWidth="minWidth" :minHeight="minHeight" :maxWidth="maxWidth" :maxHeight="maxHeight"
-    :w="position.w" :h="position.h" :x="position.x" :y="position.y" :handles="handles" :style="style"
-    drag-handle=".drag-handle" :parent="true" @resizestop="resizestop" @dragstop="dragstop" :key="app.appid"
-    v-if="windowSpecification !== Drag.Specification.Min">
+    :w="position.w" :h="position.h" :x="position.x" :y="position.y" :handles="handles" style="border:none;"
+    :style="{ 'z-index': position.zIndex }" :snap="true" :snapTolerance="20" drag-handle=".drag-handle" :parent="true"
+    @resizestop="resizestop" @dragstop="dragstop" @refLineParams="getRefLineParams" :key="app.appid" v-if="!isminimize">
     <div class="drag flex-c">
       <div class="drag-handle">
         <div class="title flex">
           <div class="left">{{ app.name }} {{ app.appid }}</div>
           <div class="right">
-            <icon-minus class="icon" @click.stop="onWindowSpecification(Drag.Specification.Min)" />
+            <icon-minus class="icon" @click.stop="isminimize = true" />
             <icon-fullscreen class="icon" v-if="windowSpecification === Drag.Specification.Free"
-              @click.stop="onWindowSpecification(Drag.Specification.Max)" />
-            <icon-fullscreen-exit class="icon" v-else @click.stop="onWindowSpecification(Drag.Specification.Free)" />
+              @click.stop.native="changeSpecification()" />
+            <icon-fullscreen-exit class="icon" v-else @click.stop.native="changeSpecification()" />
           </div>
         </div>
       </div>
@@ -144,16 +159,27 @@ function dragstop(x: number, y: number) {
         <slot name="bottom"></slot>
       </div>
     </div>
-
   </VueDragResizeRotate>
+
+  <!-- 辅助线 -->
+  <span class="ref-line v-line" v-for="(  item, index  ) in   vLine  " :key="'v_' + index" v-show="item.display" :style="{
+    left: item.position,
+    top: item.origin,
+    height: item.lineLength
+  }
+    "></span>
+  <span class="ref-line h-line" v-for="(  item, index  ) in   hLine  " :key="'h_' + index" :style="{
+    top: item.position,
+    left: item.origin,
+    width: item.lineLength
+  }
+    "></span>
 </template>
 <style lang='scss' scoped>
 .drag {
   width: 100%;
   height: 100%;
   padding: 20px;
-  border-radius: 7px;
-  box-shadow: 0 0 10px var(--color-border-4);
   overflow: hidden;
   background: #ffffff;
 
@@ -193,5 +219,19 @@ function dragstop(x: number, y: number) {
   .bottom {
     width: 100%;
   }
+}
+
+.ref-line {
+  position: absolute;
+  background-color: rgb(219, 89, 110);
+  z-index: 9999;
+}
+
+.v-line {
+  width: 1px;
+}
+
+.h-line {
+  height: 1px;
 }
 </style>

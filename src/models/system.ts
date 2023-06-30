@@ -12,8 +12,8 @@ export class SystemModel {
   public init(): void {
     const { clientWidth, clientHeight } = document.documentElement;
     this._data = {
-      viewWidth: clientWidth - 20,
-      viewHeight: clientHeight - 50 - 20,
+      viewWidth: clientWidth,
+      viewHeight: clientHeight - 50,
       taskbarHeight: 50,
     };
   }

@@ -26,20 +26,9 @@ function updatedWallpaper(): void {
     <Taskbar />
     <main class="main">
       <Lore />
-      <!-- <Loading /> -->
-      <!-- <a-split class="split" v-model:size="size" min="80px">
-        <template #first>
-          <a-typography-paragraph class="left">
-            <Lore />
-          </a-typography-paragraph>
-        </template>
-        <template #second>
-          <a-typography-paragraph class="right">Right</a-typography-paragraph>
-        </template>
-      </a-split> -->
       <TakeNote />
+      <!-- <Welcome /> -->
     </main>
-    <!-- <Welcome /> -->
   </div>
 </template>
 <style lang='scss' scoped>
@@ -53,7 +42,7 @@ function updatedWallpaper(): void {
   .main {
     width: 100%;
     flex: 1;
-    margin: 10px auto;
+    margin: auto;
 
     .split {
       height: 100%;
