@@ -7,17 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AImage: typeof import('@arco-design/web-vue')['Image']
     AInput: typeof import('@arco-design/web-vue')['Input']
-    AMenu: typeof import('@arco-design/web-vue')['Menu']
-    AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
-    ASplit: typeof import('@arco-design/web-vue')['Split']
-    ATypographyParagraph: typeof import('@arco-design/web-vue')['TypographyParagraph']
     Drag: typeof import('./src/components/base/Drag.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
-    Header: typeof import('./src/components/base/Header.vue')['default']
     Loading: typeof import('./src/components/Loading.vue')['default']
     Lore: typeof import('./src/components/Lore.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
