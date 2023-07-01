@@ -17,6 +17,7 @@ declare module 'vue' {
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
+    ARow: typeof import('@arco-design/web-vue')['Row']
     Drag: typeof import('./src/components/base/Drag.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Loading: typeof import('./src/components/Loading.vue')['default']

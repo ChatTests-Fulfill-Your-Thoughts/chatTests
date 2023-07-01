@@ -10,6 +10,7 @@ const question = ref({} as LoreQuestionInfo);
 const showAnswer = ref(false);
 const getItRight = ref(false);
 const answers = ref({ current: '' });
+const gettingQuestion = ref(false);
 
 onMounted(() => {
   appRef.lore.setData();
@@ -24,6 +25,7 @@ function init(): void {
 function getNewQuestion(): void {
   showAnswer.value = false;
   answers.value.current='';
+  gettingQuestion.value = true;
   chatService.message(appRef.lore.newQuestionPrompt, chunk, end);
 }
 
@@ -39,8 +41,15 @@ function chunk(text: string): void {
 }
 
 function end(text: string): void {
-  question.value = JSON.parse(text) as LoreQuestionInfo;
-  appRef.lore.addQuestion(question.value);
+  try {
+    question.value = JSON.parse(text) as LoreQuestionInfo;
+    appRef.lore.addQuestion(question.value);
+    gettingQuestion.value = false;
+  } catch(error) {
+    console.error("解析数据出错:", error);
+    console.error(text);
+    gettingQuestion.value = false;
+  }
 }
 
 function seeTheParse(): void {
@@ -97,12 +106,14 @@ function answerChange(value: string): void {
       </div>
     </template>
     <template #bottom>
-      <a-button type="primary" shape="round" @click="seeTheParse"
-        >提交答案</a-button
-      >
-      <a-button type="primary" shape="round" @click="getNewQuestion"
-        >下一题</a-button
-      >
+      <a-row>
+        <a-col :span="12">
+          <a-button type="primary" shape="round" size="large" @click="seeTheParse" long>提交答案</a-button>
+        </a-col>
+        <a-col :span="12">
+          <a-button type="primary" shape="round" size="large" :loading="gettingQuestion" long @click="getNewQuestion">下一题</a-button>
+        </a-col>
+      </a-row>
     </template>
   </Drag>
 </template>

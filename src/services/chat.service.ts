@@ -18,7 +18,6 @@ export class ChatService extends BaseServices {
   ): void {
     const url = "https://www.gaosijiaoyu.cn/message";
     const data = { message, user_key: appRef.user.data.openai_key };
-    console.log(data);
     return this.stream(url, data, chunk, end);
   }
 }
