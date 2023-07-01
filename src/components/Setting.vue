@@ -6,12 +6,13 @@ import Theme from './Theme.vue';
 import { Site } from '@/config/base';
 import { appNotify, NotifyOption, NotifyType } from '@/models/app.notify';
 import { regExpImage } from '@/utils/common.methods';
+import { appContext } from '@/models/app.context';
 
 const openai_key = ref('');
 const wallpaper = ref('');
 onMounted(() => {
   openai_key.value = appRef.user.data.openai_key;
-  wallpaper.value = appRef.user.data.wallpaper;
+  wallpaper.value = appContext.system.data.wallpaper;
 })
 
 function blurOpenai(): void {
@@ -22,7 +23,7 @@ function blurOpenai(): void {
 function blurWallpaper(): void {
   regExpImage(wallpaper.value).then((res) => {
     if (res) {
-      appRef.user.setWallpaper(wallpaper.value);
+      appContext.system.setWallpaper(wallpaper.value);
       appNotify.send(NotifyType.Wallpaper, NotifyOption.Updated)
       Message.success('背景图设置成功')
     } else {
