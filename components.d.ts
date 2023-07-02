@@ -18,6 +18,7 @@ declare module 'vue' {
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     ARow: typeof import('@arco-design/web-vue')['Row']
+    Desktop: typeof import('./src/components/base/Desktop.vue')['default']
     Drag: typeof import('./src/components/base/Drag.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Loading: typeof import('./src/components/Loading.vue')['default']
