@@ -6,6 +6,7 @@ import Loading from '@/components/Loading.vue';
 import { appRef } from '@/models/app.ref';
 import { onMounted, ref } from 'vue';
 import { appNotify, NotifyType } from '@/models/app.notify';
+import { appContext } from '@/models/app.context';
 
 
 onMounted(() => {
@@ -15,7 +16,7 @@ onMounted(() => {
 
 const wallpaper = ref('');
 function updatedWallpaper(): void {
-  wallpaper.value = appRef.user.data?.wallpaper
+  wallpaper.value = appContext.system.data?.wallpaper
 }
 
 </script>

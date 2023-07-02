@@ -36,7 +36,9 @@ export class ApplicationSetModel {
   }
 
   public get num(): number {
-    return this._data.list?.length + 1 || 1;
+    const index = this._data.list?.length + 1 || 1;
+    console.log(index);
+    return index;
   }
 
   public getApplication(appid: string): ApplicationInfo {
@@ -49,16 +51,29 @@ export class ApplicationSetModel {
     return this._data.list;
   }
 
+  /** 应用初始化注册 */
+  public register(data: ApplicationInfo): void {
+    if (this._data.list?.some((val) => val.appid === data.appid)) {
+      return;
+    } else {
+      data.zIndex = this.num;
+      this._data.list = (this._data.list || []).concat(data);
+    }
+    this.setlocalStorage("应用初始化注册");
+  }
+
   public setApplication(data: ApplicationInfo): void {
-    console.log(data);
-    data = JSON.parse(JSON.stringify(data));
-    data.zIndex = this.num;
     if (this._data.list?.some((val) => val.appid === data.appid)) {
       this._data.list = this._data.list?.map((val) => {
         if (val.appid === data.appid) {
           val = data;
-        } else {
-          val.zIndex--;
+        }
+        if (this._data.current !== data.appid) {
+          if (val.appid === data.appid) {
+            val.zIndex = this.num;
+          } else {
+            val.zIndex > 0 ? val.zIndex-- : null;
+          }
         }
         return val;
       });

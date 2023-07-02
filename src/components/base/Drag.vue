@@ -3,7 +3,7 @@ import { Drag } from "@/models/@types";
 import { appContext } from "@/models/app.context";
 import { appNotify, NotifyOption, NotifyType } from "@/models/app.notify";
 import VueDragResizeRotate from "@gausszhou/vue3-drag-resize-rotate";
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 
 /** 
  * 说明，公共拖拽窗口组件, 实例化为一个 Application， API 如下
@@ -58,9 +58,11 @@ onMounted(() => {
 
 /** 应用有更新，同步更新 */
 function renew(): void {
-  position.value = appContext.applicationSet.getApplication(props.app.appid);
+  const { x, y, w, h, zIndex } = appContext.applicationSet.getApplication(props.app.appid);
+  position.value = { x, y, w, h, zIndex }
   console.log(props.app.name, position.value.zIndex);
 }
+
 
 function taskClick(opt: NotifyOption, msg?: string) {
   console.log(opt, msg, props.app);
@@ -124,22 +126,13 @@ function dragstop(x: number, y: number) {
 }
 
 
-// 元素对齐辅助线
-const vLine = ref([]);
-const hLine = ref([]);
-function getRefLineParams(params) {
-  // console.log('getRefLineParams', params);
-  const { vLine, hLine } = params;
-  vLine.value = vLine;
-  hLine.value = hLine;
-}
 
 </script>
 <template>
   <VueDragResizeRotate :minWidth="minWidth" :minHeight="minHeight" :maxWidth="maxWidth" :maxHeight="maxHeight"
-    :w="position.w" :h="position.h" :x="position.x" :y="position.y" :handles="handles" style="border:none;"
-    :style="{ 'z-index': position.zIndex }" :snap="true" :snapTolerance="20" drag-handle=".drag-handle" :parent="true"
-    @resizestop="resizestop" @dragstop="dragstop" @refLineParams="getRefLineParams" :key="app.appid" v-if="!isminimize">
+    :z="position.zIndex" :w="position.w" :h="position.h" :x="position.x" :y="position.y" :handles="handles" :style="style"
+    :snap="true" :snapTolerance="20" drag-handle=".drag-handle" :parent="true" @resizestop="resizestop"
+    @dragstop="dragstop" :key="app.appid" v-if="!isminimize">
     <div class="drag flex-c">
       <div class="drag-handle">
         <div class="title flex">
@@ -160,20 +153,6 @@ function getRefLineParams(params) {
       </div>
     </div>
   </VueDragResizeRotate>
-
-  <!-- 辅助线 -->
-  <span class="ref-line v-line" v-for="(  item, index  ) in   vLine  " :key="'v_' + index" v-show="item.display" :style="{
-    left: item.position,
-    top: item.origin,
-    height: item.lineLength
-  }
-    "></span>
-  <span class="ref-line h-line" v-for="(  item, index  ) in   hLine  " :key="'h_' + index" :style="{
-    top: item.position,
-    left: item.origin,
-    width: item.lineLength
-  }
-    "></span>
 </template>
 <style lang='scss' scoped>
 .drag {
@@ -219,19 +198,5 @@ function getRefLineParams(params) {
   .bottom {
     width: 100%;
   }
-}
-
-.ref-line {
-  position: absolute;
-  background-color: rgb(219, 89, 110);
-  z-index: 9999;
-}
-
-.v-line {
-  width: 1px;
-}
-
-.h-line {
-  height: 1px;
 }
 </style>

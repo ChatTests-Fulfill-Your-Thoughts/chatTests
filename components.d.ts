@@ -10,6 +10,7 @@ declare module 'vue' {
     AInput: typeof import('@arco-design/web-vue')['Input']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
+    Desktop: typeof import('./src/components/base/Desktop.vue')['default']
     Drag: typeof import('./src/components/base/Drag.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Loading: typeof import('./src/components/Loading.vue')['default']
