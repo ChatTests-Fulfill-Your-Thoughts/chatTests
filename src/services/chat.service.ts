@@ -11,7 +11,11 @@ export class ChatService extends BaseServices {
   /**
    * 发送消息, 以流数据形式返回
    */
-  public message(message: ChatMessage[], chunk: (data: string) => void, end: (data: string) => void): void {
+  public message(
+    message: ChatMessage[],
+    chunk: (data: string) => void,
+    end: (data: string) => void
+  ): void {
     const url = "https://www.gaosijiaoyu.cn/message";
     const data = { message, user_key: appRef.user.data.openai_key };
     return this.stream(url, data, chunk, end);
